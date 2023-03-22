@@ -1,0 +1,14 @@
+msgid ""
+msgstr ""
+
+msgid "200"
+msgstr "Success."
+
+msgid "-0000001"
+msgstr "An internal server error."
+
+msgid "-0000002"
+msgstr "Invalid parameter."
+
+msgid "-0000003"
+msgstr "Unauthorized."
