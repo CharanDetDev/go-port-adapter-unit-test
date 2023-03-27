@@ -24,13 +24,13 @@ func ConfigInit() bool {
 
 	err := viper.ReadInConfig()
 	if err != nil {
-		logg.Printlogger("\t\t ***** Initail Config With Viper ERROR *****", "viper.ReadInConfig()", err)
+		logg.Printlogger("\t\t ***** Initail Config With Viper ERROR :: viper.ReadInConfig() *****", err)
 		return false
 	}
 
 	err = viper.Unmarshal(&Env)
 	if err != nil {
-		logg.Printlogger("\t\t ***** Initail Config With Viper ERROR *****", "viper.Unmarshal(&Env)", err)
+		logg.Printlogger("\t\t ***** Initail Config With Viper ERROR :: viper.Unmarshal(&Env) *****", err)
 		return false
 	}
 
@@ -47,7 +47,7 @@ func ConfigInit() bool {
 func ConfigInitForTest() {
 	viper.AddConfigPath(".")
 	// viper.AddConfigPath("../config") // for Database unit test
-	viper.AddConfigPath("../../util/config")
+	viper.AddConfigPath("../util/config")
 	viper.SetConfigName("config")
 	viper.SetConfigType("env")
 
@@ -56,24 +56,22 @@ func ConfigInitForTest() {
 
 	err := viper.ReadInConfig()
 	if err != nil {
-		logg.Printlogger("\t\t ***** Initail Config With Viper ERROR *****", "viper.ReadInConfig()", err)
+		logg.Printlogger("\t\t ***** Initail Config With Viper ERROR :: viper.ReadInConfig() *****", err)
 		panic(err)
 	}
 
 	err = viper.Unmarshal(&Env)
 	if err != nil {
-		logg.Printlogger("\t\t ***** Initail Config With Viper ERROR *****", "viper.Unmarshal(&Env)", err)
+		logg.Printlogger("\t\t ***** Initail Config With Viper ERROR :: viper.Unmarshal(&Env) *****", err)
 		panic(err)
 	}
 
 	fn := reflect.ValueOf(&Env).Elem()
 	for i := 0; i < fn.NumField(); i++ {
-		if fn.Type().Field(i).Name != "ENCRYPTION_KEY" {
-			value := converse.ParseToString(fn.Field(i).Interface())
-			reflect.ValueOf(&Env).Elem().FieldByName(fn.Type().Field(i).Name).SetString(value)
-		}
+		value := converse.ParseToString(fn.Field(i).Interface())
+		reflect.ValueOf(&Env).Elem().FieldByName(fn.Type().Field(i).Name).SetString(value)
 	}
 
-	logg.Printlogger_JsonMarshalIndent("", "", Env)
+	// logg.PrintloggerJsonMarshalIndentHasHeader("", "", Env)
 
 }

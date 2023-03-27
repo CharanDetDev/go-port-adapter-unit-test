@@ -1,82 +1,98 @@
 package service
 
 import (
-	"reflect"
+	"errors"
+	"fmt"
 	"testing"
 
-	"github.com/CharanDetDev/go-port-adapter-unit-test/util/cache"
+	"github.com/CharanDetDev/go-port-adapter-unit-test/domain"
+	mock_domain "github.com/CharanDetDev/go-port-adapter-unit-test/domain/mock"
 	"github.com/CharanDetDev/go-port-adapter-unit-test/util/config"
-	"github.com/CharanDetDev/go-port-adapter-unit-test/util/database"
 	"github.com/CharanDetDev/go-port-adapter-unit-test/util/logg"
+	"github.com/golang/mock/gomock"
+	"github.com/stretchr/testify/assert"
+	"gorm.io/gorm"
 
 	"github.com/CharanDetDev/go-port-adapter-unit-test/model"
-	"github.com/CharanDetDev/go-port-adapter-unit-test/repository"
 )
 
 func init() {
-
 	config.ConfigInitForTest()
-	isDatabase := database.InitDatabase()
-	isCache := cache.InitCache()
+}
 
-	if isDatabase && isCache {
-		logg.Printlogger_Variadic("\t ***** Initail :: Configuration & Database & Redis :: SUCCESS **** ", "Results", *database.Conn, cache.RedisCaching.RedisClient)
-	} else {
-		logg.Printlogger_Variadic("\t ***** Initail :: Configuration & Database & Redis :: ERROR **** ", "Results", *database.Conn, cache.RedisCaching.RedisClient)
-	}
+func mockRepo_GetPersonWithPersonID(t *testing.T, mockRepo *mock_domain.MockPersonRepo, expected error) {
+	mockRepo.EXPECT().GetPersonWithPersonID(gomock.Any(), gomock.Any()).Return(expected)
 }
 
 func Test_personService_GetPersonWithPersonID(t *testing.T) {
 
-	newPersonRepo := repository.NewPersonRepo()
-	service := NewPersonService(newPersonRepo)
+	//* Arrange
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	newMockPersonRepo := mock_domain.NewMockPersonRepo(ctrl)
+	newPersonService := NewPersonService(newMockPersonRepo)
 
 	type args struct {
 		personId int
 	}
 	tests := []struct {
-		name    string
-		args    args
-		want    *model.Person
-		wantErr bool
+		name              string
+		newMockPersonRepo *mock_domain.MockPersonRepo
+		newPersonService  domain.PersonService
+		args              args
+		expectedPerson    *model.Person
+		expectedErr       error
 	}{
-		// happy case 1
 		{
-			name: "Test_personService_GetPersonWithPersonID",
+			name:              "Case_Success",
+			newMockPersonRepo: newMockPersonRepo,
+			newPersonService:  newPersonService,
 			args: args{
 				personId: 1,
 			},
-			wantErr: false,
+			expectedPerson: &model.Person{},
+			expectedErr:    nil,
 		},
-		// happy case 2
 		{
-			name: "Test_personService_GetPersonWithPersonID",
+			name:              "Case_Not_Found",
+			newMockPersonRepo: newMockPersonRepo,
+			newPersonService:  newPersonService,
 			args: args{
 				personId: 2,
 			},
-			wantErr: false,
+			expectedPerson: &model.Person{},
+			expectedErr:    gorm.ErrRecordNotFound,
 		},
-		// fail
 		{
-			name: "Test_personService_GetPersonWithPersonID",
+			name:              "Case_Internal_Server_Error",
+			newMockPersonRepo: newMockPersonRepo,
+			newPersonService:  newPersonService,
 			args: args{
-				personId: 3,
+				personId: 2,
 			},
-			wantErr: true,
+			expectedPerson: &model.Person{},
+			expectedErr:    errors.New("sql: database is closed"),
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := service.GetPersonWithPersonID(tt.args.personId)
-			if err != nil {
-				t.Logf("personService.GetPersonWithPersonID() error = %v, wantErr %v", err, tt.wantErr)
-				return
+
+			//* Act
+			mockRepo_GetPersonWithPersonID(t, tt.newMockPersonRepo, tt.expectedErr)
+			err := tt.newPersonService.GetPersonWithPersonID(tt.args.personId, tt.expectedPerson)
+
+			//* Assert
+			if assert.Equal(t, tt.expectedErr, err) {
+				if err != nil {
+					logg.PrintloggerJsonMarshalIndentHasHeader(fmt.Sprintf("\t\t ***** Uni test :: %v *****", tt.name), "", fmt.Sprintf("Expected Error = %v, Actual = %v", tt.expectedErr, err))
+				} else {
+					logg.PrintloggerJsonMarshalIndentHasHeader(fmt.Sprintf("\t\t ***** Uni test :: %v *****", tt.name), "", "Expected Error = nil, Actual = nil")
+				}
 			}
 
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Logf("personService.GetPersonWithPersonID() = %v, want %v", got, tt.want)
-			}
+			logg.PrintloggerUnderLineSingle()
 		})
 	}
 }

@@ -17,9 +17,9 @@ func init() {
 	isDatabase := database.InitDatabase()
 	isCache := cache.InitCache()
 	if isConfig && isDatabase && isCache {
-		logg.Printlogger_Variadic("\t ***** Initail :: Configuration & Database & Redis :: SUCCESS **** ", "Results", *database.Conn, cache.RedisCaching.RedisClient)
+		logg.PrintloggerVariadicHasHeader("\t ***** Initail :: Configuration & Database & Redis :: SUCCESS **** ", "Results", *database.Conn, cache.RedisCaching.RedisClient)
 	} else {
-		logg.Printlogger_Variadic("\t ***** Initail :: Configuration & Database & Redis :: ERROR **** ", "Results", *database.Conn, cache.RedisCaching.RedisClient, logg.GetCallerPathNameFileNameLineNumber())
+		logg.PrintloggerVariadicHasHeader("\t ***** Initail :: Configuration & Database & Redis :: ERROR **** ", "Results", *database.Conn, cache.RedisCaching.RedisClient, logg.GetCallerPathNameFileNameLineNumber())
 		panic(fmt.Errorf("initail configuration error"))
 	}
 

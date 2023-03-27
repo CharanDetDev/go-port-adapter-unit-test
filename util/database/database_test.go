@@ -53,7 +53,7 @@ func TestDatabaseGORM_Get_Person_With_PersonID(t *testing.T) {
 				t.Errorf("GORM Get Person :: RowsAffected = %v, want %v", result.RowsAffected, tt.wantRowsAffected)
 			}
 
-			logg.Printlogger_JsonMarshalIndent(
+			logg.PrintloggerJsonMarshalIndentHasHeader(
 				"\t\t TestDatabaseGORM_Get_Person_With_PersonID",
 				"GET Person",
 				tt.person)

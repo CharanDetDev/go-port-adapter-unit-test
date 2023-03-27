@@ -33,12 +33,12 @@ func TestCacheGet(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			tt.cache.Data, err = Get(tt.cache.Key)
 			if err != nil {
-				logg.Printlogger("\t\t ********** GET Redis cache ***********", "Error", err)
+				logg.Printlogger("\t\t ********** GET Redis cache :: Error ***********", err)
 				tt.want = false
 			}
 
 			if tt.want {
-				logg.Printlogger_JsonMarshalIndent("\t\t ********** GET Redis cache ***********", "GET Cache", tt.cache)
+				logg.PrintloggerJsonMarshalIndentHasHeader("\t\t ********** GET Redis cache ***********", "GET Cache", tt.cache)
 			}
 		})
 	}
@@ -75,12 +75,12 @@ func TestCacheSet(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			err = Set(tt.cache)
 			if err != nil {
-				logg.Printlogger("\t\t ********** SET Redis cache ***********", "Error", err)
+				logg.Printlogger("\t\t ********** SET Redis cache :: Error***********", err)
 				tt.want = false
 			}
 
 			if tt.want {
-				logg.Printlogger_JsonMarshalIndent("\t\t ********** SET Redis cache **********", "SET Cache", tt.cache)
+				logg.PrintloggerJsonMarshalIndentHasHeader("\t\t ********** SET Redis cache **********", "SET Cache", tt.cache)
 			}
 		})
 	}
@@ -117,12 +117,12 @@ func TestCacheUpdate(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			err = Update(tt.cache)
 			if err != nil {
-				logg.Printlogger("\t\t ********** UPDATE Redis cache ***********", "Error", err)
+				logg.Printlogger("\t\t ********** UPDATE Redis cache :: Error ***********", err)
 				tt.want = false
 			}
 
 			if tt.want {
-				logg.Printlogger_JsonMarshalIndent("\t\t ********** UPDATE Redis cache **********", "UPDATE Cache", tt.cache)
+				logg.PrintloggerJsonMarshalIndentHasHeader("\t\t ********** UPDATE Redis cache **********", "UPDATE Cache", tt.cache)
 			}
 		})
 	}
@@ -154,12 +154,12 @@ func TestCacheDelete(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			err = Delete(tt.cache.Key)
 			if err != nil {
-				logg.Printlogger("\t\t ********** DELETE Redis cache ***********", "Error", err)
+				logg.Printlogger("\t\t ********** DELETE Redis cache :: Error ***********", err)
 				tt.want = false
 			}
 
 			if tt.want {
-				logg.Printlogger_JsonMarshalIndent("\t\t ********** DELETE Redis cache **********", "DELETE Cache", tt.cache)
+				logg.PrintloggerJsonMarshalIndentHasHeader("\t\t ********** DELETE Redis cache **********", "DELETE Cache", tt.cache)
 			}
 		})
 	}

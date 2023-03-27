@@ -17,17 +17,16 @@ func (service *personService) UpdatePerson(newPerson *model.PersonRequest) error
 		City:      newPerson.City,
 	}
 
-	fmt.Println("newPersonTemp :: ", newPersonTemp)
-
-	_, err := service.PersonRepo.GetPersonWithPersonID(newPerson.PersonID)
+	var person model.Person
+	err := service.PersonRepo.GetPersonWithPersonID(newPerson.PersonID, &person)
 	if err != nil {
-		logg.Printlogger("UPDATE failed", "not found person id", fmt.Sprintf("%v | %v", err.Error(), logg.GetCallerPathNameFileNameLineNumber()))
+		logg.PrintloggerDebuggerHasHeader("********** UPDATE failed **********", "not found person id", fmt.Sprintf("%v | %v", err.Error(), logg.GetCallerPathNameFileNameLineNumber()))
 		return fmt.Errorf("gorm update failed, not found person id")
 	}
 
 	err = service.PersonRepo.UpdatePerson(&newPersonTemp)
 	if err != nil {
-		logg.Printlogger("UPDATE failed", "", fmt.Sprintf("%v | %v", err.Error(), logg.GetCallerPathNameFileNameLineNumber()))
+		logg.PrintloggerDebuggerHasHeader("********** UPDATE failed **********", "", fmt.Sprintf("%v | %v", err.Error(), logg.GetCallerPathNameFileNameLineNumber()))
 		return fmt.Errorf("gorm update failed")
 	}
 

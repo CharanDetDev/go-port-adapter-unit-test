@@ -19,7 +19,7 @@ func (service *personService) InsertPerson(newPerson *model.PersonRequest) error
 
 	err := service.PersonRepo.InsertPerson(&newPersonTemp)
 	if err != nil {
-		logg.Printlogger("INSERT failed", "", fmt.Sprintf("%v | %v", err.Error(), logg.GetCallerPathNameFileNameLineNumber()))
+		logg.PrintloggerDebuggerHasHeader("********** INSERT failed **********", "", fmt.Sprintf("%v | %v", err.Error(), logg.GetCallerPathNameFileNameLineNumber()))
 		return fmt.Errorf("gorm insert failed")
 	}
 

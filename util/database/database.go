@@ -23,7 +23,7 @@ func InitDatabase() bool {
 
 	gorm_db, err := initDatabaseGORM()
 	if err != nil {
-		logg.Printlogger("\t\t Database connection FAILED :: ", "Connection GORM", err)
+		logg.Printlogger("\t\t Database connection FAILED :: Connection GORM ", err)
 		return false
 	}
 	Conn = gorm_db
@@ -44,7 +44,7 @@ func initDatabaseGORM() (db *gorm.DB, err error) {
 	gorm_db, err := gorm.Open(
 		mysql.Open(dsn),
 		&gorm.Config{
-			Logger: &SqlLogger{},
+			// Logger: &SqlLogger{},
 			// DryRun: true,
 		},
 	)
@@ -62,5 +62,5 @@ func ConnectionClose() {
 
 func (sqlLog *SqlLogger) Trace(ctx context.Context, begin time.Time, fc func() (sql string, rowsAffected int64), err error) {
 	sqlStatement, _ := fc()
-	logg.Printlogger("\t\t\t ***** Generate GORM SQL Statement *****", "SQL Statement", sqlStatement)
+	logg.Printlogger("\t\t\t ***** Generate GORM SQL Statement *****", sqlStatement)
 }

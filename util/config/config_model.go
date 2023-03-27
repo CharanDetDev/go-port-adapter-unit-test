@@ -12,4 +12,5 @@ type Config struct {
 	REDIS_ADDRESS  string `mapstructure:"REDIS_ADDRESS"`
 	REDIS_PASSWORD string `mapstructure:"REDIS_PASSWORD"`
 	REDIS_DB_NUM   string `mapstructure:"REDIS_DB_NUM"`
+	SKIP_UNIT_TEST string `mapstructure:"SKIP_UNIT_TEST"`
 }

@@ -5,4 +5,5 @@ var (
 	InternalServerError = "-0000001"
 	InvalidParam        = "-0000002"
 	Unauthorized        = "-0000003"
+	PersonNotFound      = "-0000004"
 )

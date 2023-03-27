@@ -36,7 +36,7 @@ func TestValidate(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(_ *testing.T) {
 			if err := validate(tt.args); (err != nil) != tt.wantErr {
-				logg.Printlogger_JsonMarshalIndent("", "", err.Error())
+				logg.PrintloggerJsonMarshalIndentHasHeader("", "", err.Error())
 			}
 		})
 	}

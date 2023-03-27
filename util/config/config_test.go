@@ -13,10 +13,10 @@ func TestConfigEnv(t *testing.T) {
 	ConfigInit()
 
 	// marshal and print logger
-	logg.Printlogger_JsonMarshalIndent("\t\t\t ***** Test GET Config *****", "Environment", Env)
+	logg.PrintloggerJsonMarshalIndentHasHeader("\t\t\t ***** Test GET Config *****", "Environment", Env)
 
 	// marshal ด้วย logg.JsonMarshalIndent(data interface{}) และ print logger ด้วย logg.Printlogger(header, prefix string, data interface{})
-	logg.Printlogger("\t\t\t ***** Test GET Config *****", "Environment", converse.JsonMarshalIndent(Env))
+	logg.Printlogger("\t\t\t ***** Test GET Config :: Environment *****", converse.JsonMarshalIndent(Env))
 }
 
 func TestConfigValueWithKey(t *testing.T) {
@@ -31,7 +31,7 @@ func TestConfigValueWithKey(t *testing.T) {
 		if key == val.Type().Field(i).Name {
 
 			// print logger โดยการรับค่ามาเป็น Variadic function
-			logg.Printlogger_Variadic_JsonMarshalIndent("\t\t ***** Test GET :: VALUE-With-KEY :: Config *****", "Result", converse.ParseToString_KeyValue("Type", val.Type().Field(i).Type), converse.ParseToString_KeyValue("Key", val.Type().Field(i).Name), converse.ParseToString_KeyValue("Value", val.Field(i).Interface()))
+			logg.PrintloggerVariadicJsonMarshalIndentHasHeader("\t\t ***** Test GET :: VALUE-With-KEY :: Config *****", "Result", converse.ParseToString_KeyValue("Type", val.Type().Field(i).Type), converse.ParseToString_KeyValue("Key", val.Type().Field(i).Name), converse.ParseToString_KeyValue("Value", val.Field(i).Interface()))
 
 		}
 	}
@@ -50,7 +50,7 @@ func TestConfigKeyWithValue(t *testing.T) {
 		if value == val.Field(i).Interface() {
 
 			// print logger โดยการรับค่ามาเป็น Variadic function
-			logg.Printlogger_Variadic_JsonMarshalIndent(
+			logg.PrintloggerVariadicJsonMarshalIndentHasHeader(
 				"\t\t ***** Test GET :: KEY-With-VALUE :: Config *****",
 				"Result",
 				converse.ParseToString_KeyValue("Type", val.Type().Field(i).Type),

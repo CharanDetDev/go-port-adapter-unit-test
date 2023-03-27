@@ -1,3 +1,4 @@
+
 msgid ""
 msgstr ""
 
@@ -12,3 +13,6 @@ msgstr "Invalid parameter."
 
 msgid "-0000003"
 msgstr "Unauthorized."
+
+msgid "-0000004"
+msgstr "Member information not found."

@@ -17,7 +17,7 @@ func Get(key string) (interface{}, error) {
 			return nil, err
 		}
 
-		logg.Printlogger("GET Cache error", "", fmt.Sprintf("%v | %v | KEY =  %v", getByKey, err.Error(), logg.GetCallerPathNameFileNameLineNumber()))
+		logg.Printlogger("GET Cache error", fmt.Sprintf("%v | %v | KEY =  %v", getByKey, err.Error(), logg.GetCallerPathNameFileNameLineNumber()))
 		return nil, err
 	}
 

@@ -21,15 +21,24 @@ func loadMessage(language string, code string) string {
 	// fmt.Println("this path :: ", path)
 
 	GettextPath := "/Users/D.Charan/Documents/github/go-port-adapter/util/message/SelectLanguage/"
-	gotext.Configure(GettextPath, strings.ToLower(language), "PORT_ADAPTOR")
+	gotext.Configure(GettextPath, strings.ToLower(language), "port_adaptor")
 	message := gotext.Get(code)
-	// fmt.Println("this message :: ", message)
+	// fmt.Println("this message notfound :: ", message)
 	if message == code {
-		if strings.ToLower(language) == "th" {
-			return fmt.Sprintf("[%s] เกิดข้อผิดพลาดขึ้นในระบบ.", code)
+		if message == "-0000004" {
+			if strings.ToLower(language) == "th" {
+				return "ไม่พบข้อมูลสมาชิก."
+			} else {
+				return "Member information not found."
+			}
 		} else {
-			return fmt.Sprintf("[%s] An error in the system.", code)
+			if strings.ToLower(language) == "th" {
+				return fmt.Sprintf("[%s] เกิดข้อผิดพลาดขึ้นในระบบ.", code)
+			} else {
+				return fmt.Sprintf("[%s] An error in the system.", code)
+			}
 		}
+
 	}
 	return message
 }

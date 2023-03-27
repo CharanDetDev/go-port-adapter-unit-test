@@ -5,9 +5,11 @@ go 1.19
 require (
 	github.com/go-playground/validator/v10 v10.12.0
 	github.com/gofiber/fiber/v2 v2.42.0
+	github.com/golang/mock v1.6.0
 	github.com/leonelquinteros/gotext v1.5.2
 	github.com/redis/go-redis/v9 v9.0.2
 	github.com/spf13/viper v1.15.0
+	github.com/stretchr/testify v1.8.2
 	gorm.io/driver/mysql v1.4.7
 	gorm.io/gorm v1.24.6
 )
@@ -15,6 +17,7 @@ require (
 require (
 	github.com/andybalholm/brotli v1.0.4 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
+	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
@@ -33,6 +36,7 @@ require (
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.6 // indirect
 	github.com/philhofer/fwd v1.1.1 // indirect
+	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
 	github.com/savsgio/dictpool v0.0.0-20221023140959-7bf2e61cea94 // indirect
 	github.com/savsgio/gotils v0.0.0-20220530130905-52f3993e8d6d // indirect

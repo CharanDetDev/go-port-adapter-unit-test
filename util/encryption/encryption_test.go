@@ -11,7 +11,7 @@ import (
 func TestRandom32Char(t *testing.T) {
 
 	random32char := RandomString(32)
-	logg.Printlogger("\t\t ***** TEST random char32 *****", "", random32char)
+	logg.Printlogger("\t\t ***** TEST random char32 *****", random32char)
 
 }
 
@@ -21,15 +21,15 @@ func TestWriteNewEncryptionTo_Config_file(t *testing.T) {
 	// fname := "../config/config_dev.env"
 	abs_fname, err := filepath.Abs(fname)
 	if err != nil {
-		logg.Printlogger("\t\t ***** TEST Reading Path File ERROR *****", "", err)
+		logg.Printlogger("\t\t ***** TEST Reading Path File ERROR *****", err)
 	}
-	logg.Printlogger("\t\t ***** TEST Reading Path File SUCCESS *****", "", abs_fname)
+	logg.Printlogger("\t\t ***** TEST Reading Path File SUCCESS *****", abs_fname)
 
 	// file, err := os.OpenFile("./config.env", os.O_APPEND|os.O_WRONLY, 0644)
 	file, err := os.OpenFile("../config/config.env", os.O_APPEND|os.O_WRONLY, 0644)
 	// file, err := os.OpenFile("../config/config_dev.env", os.O_APPEND|os.O_WRONLY, 0644)
 	if err != nil {
-		logg.Printlogger("\t\t ***** TEST Open File ERROR *****", "", err)
+		logg.Printlogger("\t\t ***** TEST Open File ERROR *****", err)
 	}
 	defer file.Close()
 
@@ -84,9 +84,9 @@ func TestEncryptParamsValue(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.want = EncryptParamsValueConfig(tt.args.param, ""); tt.want == "" {
-				logg.Printlogger("\t\t ***** EncryptParamsValue() ERROR *****", "", tt.want)
+				logg.Printlogger("\t\t ***** EncryptParamsValue() ERROR *****", tt.want)
 			}
-			logg.Printlogger("\t\t ***** EncryptParamsValue() SUCCESS *****", "", tt.want)
+			logg.Printlogger("\t\t ***** EncryptParamsValue() SUCCESS *****", tt.want)
 		})
 	}
 }
@@ -112,9 +112,9 @@ func TestDecryptParamsValue(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			got := DecryptParamsValue(tt.args.DecryptString)
 			if got != tt.want {
-				logg.Printlogger_Variadic("\t\t ***** DecryptParamsValue() ERROR *****", "", tt.want, got)
+				logg.PrintloggerVariadic("\t\t ***** DecryptParamsValue() ERROR *****", tt.want, got)
 			}
-			logg.Printlogger_Variadic("\t\t ***** DecryptParamsValue() SUCCESS *****", "", tt.want, got)
+			logg.PrintloggerVariadic("\t\t ***** DecryptParamsValue() SUCCESS *****", tt.want, got)
 		})
 	}
 }

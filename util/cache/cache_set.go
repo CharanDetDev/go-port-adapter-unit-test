@@ -20,10 +20,10 @@ func Set(newCache MakeCache) error {
 			return err
 		}
 
-		logg.Printlogger("SET Cache error", "", fmt.Sprintf("%v | %v | KEY =  %v", setKey, err.Error(), logg.GetCallerPathNameFileNameLineNumber()))
+		logg.Printlogger("SET Cache error", fmt.Sprintf("%v | %v | KEY =  %v", setKey, err.Error(), logg.GetCallerPathNameFileNameLineNumber()))
 		return nil
 	}
 
-	logg.Printlogger("SET Cache error", "", fmt.Sprintf("%v | %v | KEY =  %v", setKey, fmt.Errorf("can't set cahce :: key is empty or invalid format"), logg.GetCallerPathNameFileNameLineNumber()))
+	logg.Printlogger("SET Cache error", fmt.Sprintf("%v | %v | KEY =  %v", setKey, fmt.Errorf("can't set cahce :: key is empty or invalid format"), logg.GetCallerPathNameFileNameLineNumber()))
 	return fmt.Errorf("can't set cahce")
 }
