@@ -105,6 +105,7 @@ func Test_personHandler_GetPersonWithPersonID(t *testing.T) {
 			}
 
 			req := httptest.NewRequest("GET", fmt.Sprintf("/%v", tt.args.requestPersonID), nil)
+			
 			tt.app.Get("/:personId?", tt.personHandler.GetPersonWithPersonID)
 			res, _ := tt.app.Test(req)
 			defer res.Body.Close()

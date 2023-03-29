@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/CharanDetDev/go-port-adapter-unit-test/api/route"
 	"github.com/CharanDetDev/go-port-adapter-unit-test/util/cache"
 	"github.com/CharanDetDev/go-port-adapter-unit-test/util/config"
@@ -20,7 +18,7 @@ func init() {
 		logg.PrintloggerVariadicHasHeader("\t ***** Initail :: Configuration & Database & Redis :: SUCCESS **** ", "Results", *database.Conn, cache.RedisCaching.RedisClient)
 	} else {
 		logg.PrintloggerVariadicHasHeader("\t ***** Initail :: Configuration & Database & Redis :: ERROR **** ", "Results", *database.Conn, cache.RedisCaching.RedisClient, logg.GetCallerPathNameFileNameLineNumber())
-		panic(fmt.Errorf("initail configuration error"))
+		// panic(fmt.Errorf("initail configuration error"))
 	}
 
 }
