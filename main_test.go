@@ -1,6 +1,11 @@
 package main
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+)
 
 func TestHelloWorld(t *testing.T) { //! Function TestHelloWorld จะถูกสร้างขึ้นมาอัตโนมัติ
 
@@ -29,8 +34,8 @@ func TestHelloWorld(t *testing.T) { //! Function TestHelloWorld จะถูก�
 			got := HelloWorld(tt.args.hello)
 
 			//* Assert
-			if got != tt.want {
-				t.Errorf("HelloWorld() = %v, want %v", got, tt.want)
+			if assert.Equal(t, got, tt.want) {
+				fmt.Printf("HelloWorld() = %v, want %v", got, tt.want)
 			}
 		})
 	}

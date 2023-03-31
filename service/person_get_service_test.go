@@ -20,6 +20,7 @@ import (
 
 func init() {
 	config.ConfigInitForTest()
+	database.InitRedisCache()
 }
 
 func mockRepo_GetPersonWithPersonID(t *testing.T, mockRepo *mock_domain.MockPersonRepo, expected error) {
@@ -33,8 +34,8 @@ func Test_personService_GetPersonWithPersonID(t *testing.T) {
 	defer ctrl.Finish()
 
 	newMockPersonRepo := mock_domain.NewMockPersonRepo(ctrl)
-	NewRedisCacheRepo := repository.NewRedisCacheRepo(database.RedisCaching)
-	newPersonService := NewPersonService(newMockPersonRepo, NewRedisCacheRepo)
+	newRedisCacheRepo := repository.NewRedisCacheRepo(database.RedisCaching)
+	newPersonService := NewPersonService(newMockPersonRepo, newRedisCacheRepo)
 
 	type args struct {
 		personId int
@@ -42,24 +43,16 @@ func Test_personService_GetPersonWithPersonID(t *testing.T) {
 	tests := []struct {
 		name              string
 		newMockPersonRepo *mock_domain.MockPersonRepo
+		newRedisCacheRepo domain.RedisCacheRepo
 		newPersonService  domain.PersonService
 		args              args
 		expectedPerson    *model.Person
 		expectedErr       error
 	}{
 		{
-			name:              "Case_Success",
-			newMockPersonRepo: newMockPersonRepo,
-			newPersonService:  newPersonService,
-			args: args{
-				personId: 1,
-			},
-			expectedPerson: &model.Person{},
-			expectedErr:    nil,
-		},
-		{
 			name:              "Case_Not_Found",
 			newMockPersonRepo: newMockPersonRepo,
+			newRedisCacheRepo: newRedisCacheRepo,
 			newPersonService:  newPersonService,
 			args: args{
 				personId: 2,
@@ -70,6 +63,7 @@ func Test_personService_GetPersonWithPersonID(t *testing.T) {
 		{
 			name:              "Case_Internal_Server_Error",
 			newMockPersonRepo: newMockPersonRepo,
+			newRedisCacheRepo: newRedisCacheRepo,
 			newPersonService:  newPersonService,
 			args: args{
 				personId: 2,
@@ -77,13 +71,46 @@ func Test_personService_GetPersonWithPersonID(t *testing.T) {
 			expectedPerson: &model.Person{},
 			expectedErr:    errors.New("sql: database is closed"),
 		},
+		{
+			name:              "Case_Success",
+			newMockPersonRepo: newMockPersonRepo,
+			newRedisCacheRepo: newRedisCacheRepo,
+			newPersonService:  newPersonService,
+			args: args{
+				personId: 1,
+			},
+			expectedPerson: &model.Person{},
+			expectedErr:    nil,
+		},
+		{
+			name:              "Case_GET_Redis_Cache_Success",
+			newMockPersonRepo: newMockPersonRepo,
+			newRedisCacheRepo: newRedisCacheRepo,
+			newPersonService:  newPersonService,
+			args: args{
+				personId: 2,
+			},
+			expectedPerson: &model.Person{},
+			expectedErr:    nil,
+		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 
 			//* Act
-			mockRepo_GetPersonWithPersonID(t, tt.newMockPersonRepo, tt.expectedErr)
+			if tt.name != "Case_GET_Redis_Cache_Success" {
+				tt.newRedisCacheRepo.Delete("person-2")
+				tt.newRedisCacheRepo.Delete("person-1")
+				mockRepo_GetPersonWithPersonID(t, tt.newMockPersonRepo, tt.expectedErr)
+			} else {
+				newMackRedisCache := model.MakeNewRedisCache{
+					Key:    fmt.Sprintf("person-%v", tt.args.personId),
+					Data:   tt.expectedPerson,
+					Expire: "2m",
+				}
+				tt.newRedisCacheRepo.Set(newMackRedisCache)
+			}
 			err := tt.newPersonService.GetPersonWithPersonID(tt.args.personId, tt.expectedPerson)
 
 			//* Assert
