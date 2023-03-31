@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/CharanDetDev/go-port-adapter-unit-test/api/route"
 	"github.com/CharanDetDev/go-port-adapter-unit-test/util/config"
 	"github.com/CharanDetDev/go-port-adapter-unit-test/util/database"
@@ -24,9 +26,20 @@ func init() {
 func main() {
 	defer database.ConnectionClose()
 
+	hello := "Hello"
+	fmt.Println(hello, HelloWorld(hello))
+
 	app := fiber.New()
 	router := route.NewRoute()
 	router.InitRoute(app)
 
 	app.Listen(config.Env.API_PORT)
+}
+
+func HelloWorld(hello string) string {
+	if hello != "" {
+		return "World"
+	}
+
+	return ""
 }
