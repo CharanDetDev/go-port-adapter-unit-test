@@ -1,4 +1,4 @@
-package cache
+package repository
 
 import (
 	"fmt"
@@ -7,17 +7,17 @@ import (
 	"github.com/CharanDetDev/go-port-adapter-unit-test/util/logg"
 )
 
-func Get(key string) (interface{}, error) {
+func (rc *redisCacheRepo) Get(key string) (interface{}, error) {
 
 	getByKey := key
-	value, err := RedisCaching.RedisClient.Get(RedisCaching.Contx, getByKey).Result()
+	value, err := rc.RedisCache.RedisClient.Get(rc.RedisCache.Contx, getByKey).Result()
 	if err != nil {
 
 		if err.Error() == "redis: nil" {
 			return nil, err
 		}
 
-		logg.Printlogger("GET Cache error", fmt.Sprintf("%v | %v | KEY =  %v", getByKey, err.Error(), logg.GetCallerPathNameFileNameLineNumber()))
+		logg.Printlogger("GET Cache error", fmt.Sprintf("%v | %v | KEY =  %v", getByKey, err, logg.GetCallerPathNameFileNameLineNumber()))
 		return nil, err
 	}
 

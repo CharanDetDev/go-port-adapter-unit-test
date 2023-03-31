@@ -31,7 +31,7 @@ func Test_personRepo_GetPersonWithPersonID(t *testing.T) {
 	Init(t)
 	defer database.ConnectionClose()
 
-	newPersonRepo := NewPersonRepo()
+	newPersonRepo := NewPersonRepo(database.Conn)
 	type args struct {
 		personId int
 	}

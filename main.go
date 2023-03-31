@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/CharanDetDev/go-port-adapter-unit-test/api/route"
-	"github.com/CharanDetDev/go-port-adapter-unit-test/util/cache"
 	"github.com/CharanDetDev/go-port-adapter-unit-test/util/config"
 	"github.com/CharanDetDev/go-port-adapter-unit-test/util/database"
 	"github.com/CharanDetDev/go-port-adapter-unit-test/util/logg"
@@ -13,12 +12,11 @@ func init() {
 
 	isConfig := config.ConfigInit()
 	isDatabase := database.InitDatabase()
-	isCache := cache.InitCache()
-	if isConfig && isDatabase && isCache {
-		logg.PrintloggerVariadicHasHeader("\t ***** Initail :: Configuration & Database & Redis :: SUCCESS **** ", "Results", *database.Conn, cache.RedisCaching.RedisClient)
+	isRedisCache := database.InitRedisCache()
+	if isConfig && isDatabase && isRedisCache {
+		logg.PrintloggerVariadicHasHeader("\t ***** Initail :: Configuration & Database & Redis :: SUCCESS **** ", "Results", *database.Conn, database.RedisCaching.RedisClient)
 	} else {
-		logg.PrintloggerVariadicHasHeader("\t ***** Initail :: Configuration & Database & Redis :: ERROR **** ", "Results", *database.Conn, cache.RedisCaching.RedisClient, logg.GetCallerPathNameFileNameLineNumber())
-		// panic(fmt.Errorf("initail configuration error"))
+		logg.PrintloggerVariadicHasHeader("\t ***** Initail :: Configuration & Database & Redis :: ERROR **** ", "Results", *database.Conn, database.RedisCaching.RedisClient, logg.GetCallerPathNameFileNameLineNumber())
 	}
 
 }

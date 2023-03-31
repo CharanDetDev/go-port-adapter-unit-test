@@ -5,6 +5,7 @@ import (
 	"github.com/CharanDetDev/go-port-adapter-unit-test/domain"
 	"github.com/CharanDetDev/go-port-adapter-unit-test/repository"
 	"github.com/CharanDetDev/go-port-adapter-unit-test/service"
+	"github.com/CharanDetDev/go-port-adapter-unit-test/util/database"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -21,8 +22,9 @@ type (
 
 func NewRoute() Route {
 
-	newPersonRepo := repository.NewPersonRepo()
-	newPersonService := service.NewPersonService(newPersonRepo)
+	newPersonRepo := repository.NewPersonRepo(database.Conn)
+	newRedisCacheRepo := repository.NewRedisCacheRepo(database.RedisCaching)
+	newPersonService := service.NewPersonService(newPersonRepo, newRedisCacheRepo)
 	newPersonHandle := handler.NewPersonHandler(newPersonService)
 
 	return &route{

@@ -24,7 +24,7 @@ func (personHandler *personHandler) GetPersonWithPersonID(c *fiber.Ctx) error {
 		if err == gorm.ErrRecordNotFound {
 			return caller.Success(c, message.PersonNotFound, message.Get(c, message.PersonNotFound), nil)
 		} else {
-			return caller.InternalServerError(c, message.InvalidParam, err.Error())
+			return caller.InternalServerError(c, message.InternalServerError, err.Error())
 		}
 	}
 

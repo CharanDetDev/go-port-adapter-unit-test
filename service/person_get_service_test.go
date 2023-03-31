@@ -7,7 +7,9 @@ import (
 
 	"github.com/CharanDetDev/go-port-adapter-unit-test/domain"
 	mock_domain "github.com/CharanDetDev/go-port-adapter-unit-test/domain/mock"
+	"github.com/CharanDetDev/go-port-adapter-unit-test/repository"
 	"github.com/CharanDetDev/go-port-adapter-unit-test/util/config"
+	"github.com/CharanDetDev/go-port-adapter-unit-test/util/database"
 	"github.com/CharanDetDev/go-port-adapter-unit-test/util/logg"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
@@ -31,7 +33,8 @@ func Test_personService_GetPersonWithPersonID(t *testing.T) {
 	defer ctrl.Finish()
 
 	newMockPersonRepo := mock_domain.NewMockPersonRepo(ctrl)
-	newPersonService := NewPersonService(newMockPersonRepo)
+	NewRedisCacheRepo := repository.NewRedisCacheRepo(database.RedisCaching)
+	newPersonService := NewPersonService(newMockPersonRepo, NewRedisCacheRepo)
 
 	type args struct {
 		personId int
