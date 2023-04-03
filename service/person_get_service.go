@@ -11,7 +11,7 @@ import (
 
 func (service *personService) GetPersonWithPersonID(personId int, person *model.Person) error {
 
-	// * ----------------- Version Port & Adapter :: Get Redis cache -----------------
+	// ? ----------------- Version Port & Adapter :: Get Redis cache -----------------
 	key := fmt.Sprintf("person-%v", personId)
 	personInCache, err := service.RedisCacheRepo.Get(key)
 	if err == nil {
@@ -20,7 +20,7 @@ func (service *personService) GetPersonWithPersonID(personId int, person *model.
 		logg.Printlogger("********** GET Redis Cache Success **********", *person)
 		return nil
 	}
-	// * -----------------------------------------------------------------------------
+	// ? -----------------------------------------------------------------------------
 
 	err = service.PersonRepo.GetPersonWithPersonID(personId, person)
 	if err != nil {
@@ -49,12 +49,3 @@ func (service *personService) GetPersonWithPersonID(personId int, person *model.
 
 	return nil
 }
-
-// ? ----------------- Version ก่อนหน้า :: Get Redis cache -------------------------
-// personInCache, err := cache.Get(fmt.Sprintf("%v", personId))
-// if err == nil {
-// 	personMarshal, _ := json.Marshal(personInCache)
-// 	json.Unmarshal([]byte(personMarshal), &person)
-// 	return nil
-// }
-// ? -----------------------------------------------------------------------------
