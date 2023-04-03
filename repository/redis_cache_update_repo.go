@@ -26,5 +26,5 @@ func (rc *redisCacheRepo) Update(newMackRedisCache model.MakeNewRedisCache) erro
 	}
 
 	logg.Printlogger("UPDATE Cache error", fmt.Sprintf("%v | %v | KEY =  %v", setKey, fmt.Errorf("can't update cahce :: key is empty or invalid format"), logg.GetCallerPathNameFileNameLineNumber()))
-	return fmt.Errorf("can't set cahce")
+	return fmt.Errorf("can't Update cahce")
 }
