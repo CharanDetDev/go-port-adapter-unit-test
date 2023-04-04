@@ -28,3 +28,7 @@ func InitRedisCache() bool {
 
 	return true
 }
+
+func RedisCacheClose() {
+	RedisCaching.RedisClient.Close()
+}
