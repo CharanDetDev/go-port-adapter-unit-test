@@ -78,5 +78,5 @@ const (
 
 func (sqlLog *SqlLogger) Trace(ctx context.Context, begin time.Time, fc func() (sql string, rowsAffected int64), err error) {
 	sqlStatement, rowsAffected := fc()
-	logg.Printlogger(fmt.Sprintf("%v***** SQL Statement ***** | ", Green), fmt.Sprintf("%v[ Row Affected : %v%v%v ] -> %v%v \n", BlueBold, YellowBold, rowsAffected, BlueBold, YellowBold, sqlStatement))
+	logg.Printlogger(fmt.Sprintf("%v***** SQL Statement ***** | ", Green), fmt.Sprintf("%v[ Row Affected : %v%v%v ] -> %v%v%v \n", BlueBold, YellowBold, rowsAffected, BlueBold, YellowBold, sqlStatement, Reset))
 }
